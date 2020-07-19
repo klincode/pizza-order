@@ -1,5 +1,5 @@
 import React, { Component, useState } from 'react';
-import { Errors, InputCheck, CheckBoxes, FormElement, SectionTitle, Label, Caption, Input, Select, Header, Order, Button } from './Styles'
+import { InfoAlert, InputCheck, CheckBoxes, FormElement, SectionTitle, Label, Caption, Input, Select, Header, Order, Button } from './Styles'
 import { pizzaType, pizzaSauce } from '../../data/pizza'
 
 
@@ -8,6 +8,7 @@ class Form extends Component {
     super(props);
     this.formValidated = false;
     this.state = {
+      dataSent: false,
       formValidated: false,
       errors: [],
       order: {
@@ -63,6 +64,24 @@ class Form extends Component {
     this.validateForm();
     if (this.formValidated === true) {
       console.log(JSON.stringify(this.state.order));
+
+      this.setState(
+        {
+          dataSent: true,
+          formValidated: false,
+          errors: [],
+          order: {
+            pizzaName: '',
+            name: '',
+            lastName: '',
+            street: '',
+            houseNumber: '',
+            city: '',
+            code: '',
+            rodo: ''
+          }
+        }
+      )
     }
   }
 
@@ -80,16 +99,20 @@ class Form extends Component {
       </Label>
     )
   })
-  showErrors = () => {
+  showInfo = () => {
     if (this.state.errors.length > 0) {
-      return <Errors>
+      return <InfoAlert>
         Uzupełnij pola formularza:
         <ul>
           {this.state.errors.map((item, index) => <li key={index}>{item}</li>)}
         </ul>
-      </Errors>
+      </InfoAlert>
     }
-
+    if (this.state.dataSent) {
+      return <InfoAlert info>
+        Zamówienie wysłane
+      </InfoAlert>
+    }
   }
 
   showSelectedPizza =
@@ -105,7 +128,7 @@ class Form extends Component {
     return (
       <>
         <Header>Złóż zamówienie</Header>
-        <FormElement onSubmit={this.sendOrder}>
+        <FormElement onSubmit={this.sendOrder} ref={data => this.form = data}>
           {this.selectedPizza ? this.showSelectedPizza : null}
           <SectionTitle>Pizza</SectionTitle>
           <Label><Caption>Pizza:</Caption>
@@ -132,7 +155,7 @@ class Form extends Component {
 
 
           <Button type='submit'>Wyślij zamówienie</Button>
-          {this.showErrors()}
+          {this.showInfo()}
         </FormElement>
       </>
     );

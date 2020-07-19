@@ -97,12 +97,13 @@ text-transform:uppercase;
  }
  `
 
-export const Errors = styled.div`
+export const InfoAlert = styled.div`
 font-size:12px;
  border-radius:5px;
- border:1px solid red;
+ /* border:1px solid red; */
  padding:10px 20px;
   text-transform:uppercase;
   background-color:#e05251;
+  background-color:${props => props.info ? '#53ad69' : '#e05251'};
   color:#fff;
  `
