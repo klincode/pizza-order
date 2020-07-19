@@ -74,3 +74,31 @@ font-weight:600;
  padding:10px 20px;
  border-radius:5px;
  `
+
+export const Button = styled.button`
+text-transform:uppercase;
+ padding:10px 20px;
+ border:0;
+ outline:0;
+ border:1px solid #f5f5f5;
+ background-color:#fff;
+ color:#000;
+ width:300px;
+ border-radius:5px;
+ margin:20px auto;
+ &:hover {
+   cursor:pointer;
+  background-color:#000;
+  color:#fff;
+ }
+ `
+
+export const Errors = styled.div`
+font-size:12px;
+ border-radius:5px;
+ border:1px solid red;
+ padding:10px 20px;
+  text-transform:uppercase;
+  background-color:#e05251;
+  color:#fff;
+ `
