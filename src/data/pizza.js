@@ -5,7 +5,8 @@ const pizzaType = [{
 {
   name: 'Capricciosa',
   price: 45
-}, {
+},
+{
   name: 'Hawajska',
   price: 37.50
 },
@@ -16,7 +17,16 @@ const pizzaType = [{
 {
   name: 'Pepperoni',
   price: 49.99
-}]
+},
+{
+  name: 'Pepperoni 2',
+  price: 9.99
+},
+{
+  name: 'Pepperoni 3',
+  price: 42.99
+}
+]
 
-const pizzaSauce = ['pomidorowy', 'czosnkowy']
+const pizzaSauce = ['pomidorowy', 'czosnkowy', 'słodko-kwaśny', 'ostry',]
 export { pizzaType, pizzaSauce }

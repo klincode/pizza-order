@@ -5,8 +5,11 @@ export const FormElement = styled.form`
 display:flex;
 flex-direction:column;
 justify-content:center;
-width:700px;
 margin:20px auto;
+width:600px;
+@media (max-width: 768px) {
+    width:90%;
+  }
 `
 export const Input = styled.input`
 padding:5px 10px;
@@ -38,10 +41,11 @@ margin:5px;
 `
 export const CheckBoxes = styled.label`
 display:flex;
+flex-wrap:wrap;
 flex-direction:row;
-width:200px;
+min-width:200px;
 margin:0 20px;
-justify-content:center;
+justify-content:flex-start;
 `
 
 export const Caption = styled.div`
@@ -83,7 +87,7 @@ text-transform:uppercase;
  border:1px solid #f5f5f5;
  background-color:#fff;
  color:#000;
- width:300px;
+ min-width:300px;
  border-radius:5px;
  margin:20px auto;
  &:hover {

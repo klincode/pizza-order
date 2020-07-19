@@ -12,12 +12,12 @@ class Form extends Component {
       errors: [],
       order: {
         pizzaName: '',
-        name: 'adam',
-        lastName: 'klin',
-        street: 'wirskiego',
-        houseNumber: '12',
-        city: 'celom',
-        code: '22-100',
+        name: '',
+        lastName: '',
+        street: '',
+        houseNumber: '',
+        city: '',
+        code: '',
         rodo: ''
       }
     }
@@ -53,7 +53,6 @@ class Form extends Component {
     if (city.trim() === '') errors.push('Miasto');
     if (rodo === false || rodo === '') errors.push('Zgoda na przetwarzanie danych');
 
-
     this.setState({ errors });
     this.formValidated = errors.length > 0 ? false : true
 
@@ -63,9 +62,7 @@ class Form extends Component {
     e.preventDefault();
     this.validateForm();
     if (this.formValidated === true) {
-      console.log("Zamówienie do wysłania:");
       console.log(JSON.stringify(this.state.order));
-
     }
   }
 
