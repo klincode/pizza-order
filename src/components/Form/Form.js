@@ -6,18 +6,19 @@ import { pizzaType, pizzaSauce } from '../../data/pizza'
 class Form extends Component {
   constructor(props) {
     super(props);
+    this.formValidated = false;
     this.state = {
       formValidated: false,
       errors: [],
       order: {
         pizzaName: '',
-        name: '',
-        lastName: '',
-        street: '',
-        houseNumber: '',
-        city: '',
-        code: '',
-        rodo: false
+        name: 'adam',
+        lastName: 'klin',
+        street: 'wirskiego',
+        houseNumber: '12',
+        city: 'celom',
+        code: '22-100',
+        rodo: ''
       }
     }
   }
@@ -42,7 +43,7 @@ class Form extends Component {
 
   validateForm = () => {
     const { pizzaName, name, lastName, street, houseNumber, code, city, rodo } = this.state.order;
-    const errors = []
+    let errors = []
     if (pizzaName.trim() === '') errors.push('Pizza');
     if (name.trim() == '') errors.push('Imię');
     if (lastName.trim() === '') errors.push('Nazwisko');
@@ -50,19 +51,21 @@ class Form extends Component {
     if (houseNumber.trim() === '') errors.push('Nr. domu');
     if (code.trim() === '') errors.push('Kod pocztowy');
     if (city.trim() === '') errors.push('Miasto');
-    if (rodo !== true) errors.push('Zgoda na przetwarzanie danych');
+    if (rodo === false || rodo === '') errors.push('Zgoda na przetwarzanie danych');
 
-    if (errors.length > 0) {
-      this.setState({ errors })
-    }
+
+    this.setState({ errors });
+    this.formValidated = errors.length > 0 ? false : true
+
   }
 
   sendOrder = (e) => {
     e.preventDefault();
     this.validateForm();
-    if (this.state.errors === 0) {
+    if (this.formValidated === true) {
       console.log("Zamówienie do wysłania:");
       console.log(JSON.stringify(this.state.order));
+
     }
   }
 
@@ -128,7 +131,7 @@ class Form extends Component {
           <Label><Caption>Kod Pocztowy:</Caption> <Input onChange={this.handleInputChange} name='code' value={code} /></Label>
           <Label><Caption>Miasto:</Caption> <Input onChange={this.handleInputChange} name='city' value={city} /></Label>
 
-          <Label row><InputCheck type="checkbox" name='rodo' onChange={this.handleInputChange} value='' />{rodo}Zgoda na przetwarzanie danych.</Label>
+          <Label row><InputCheck type="checkbox" name='rodo' onChange={this.handleInputChange} defaultValue='' />{rodo}Zgoda na przetwarzanie danych.</Label>
 
 
           <Button type='submit'>Wyślij zamówienie</Button>
