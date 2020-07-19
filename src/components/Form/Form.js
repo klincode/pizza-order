@@ -9,7 +9,6 @@ class Form extends Component {
     this.state = {
       order: {
         pizzaName: '',
-        sauces: '',
         name: '',
         lastName: '',
         street: '',
@@ -21,29 +20,39 @@ class Form extends Component {
   }
 
   handleInputChange = (e) => {
-    const { type, value, name } = e.target;
-    console.log(e.target.checked);
-    let sauces = {};
-    if (type === 'checkbox') {
-      sauces = {
-        ...sauces, [name]: value
-      }
-    }
-    console.log(sauces);
+    const { type, value, name, checked } = e.target;
+
+
+
+    let ok = '';
+    // if (type === "checkbox") {
+    //   if (e.target.checked) {
+    //     this.setState((prevState) => {
+    //       return (
+    //         {
+    //           order: {
+    //             ...prevState.order, [name]: value
+    //           }
+    //         }
+    //       )
+    //     })
+    //   } else[name] = '0';
+    // }
+
     this.setState((prevState) => {
+      const newObj = { ...prevState.order, [name]: value }
+
+      if (type === "checkbox") {
+        if (checked) {
+          newObj[name] = true
+        }
+      }
       return (
         {
-          order: {
-            ...prevState.order, [name]: value
-          }
+          order: newObj
         }
       )
     })
-
-
-
-    console.log(type);
-    console.log(value);
   }
 
   pizza = pizzaType.map((item, index) => {
@@ -52,10 +61,10 @@ class Form extends Component {
     )
   })
   sauce = pizzaSauce.map((item, index) => {
-    let checkBoxName = `sauce_${index}`;
+    let checkBoxName = `sos ${item}`;
     return (
       <Label row>
-        <InputCheck type="checkbox" name={checkBoxName} value={item} onChange={this.handleInputChange} />
+        <InputCheck type="checkbox" name={checkBoxName} onChange={this.handleInputChange} value={null} />
         {item}
       </Label>
     )
@@ -82,7 +91,7 @@ class Form extends Component {
               <option value="">-- Wybierz Pizzę --</option>
               {this.pizza}
             </Select>
-          </Label>
+          </Label >
           <Label><Caption>Sosy:</Caption>
             <CheckBoxes>
               {this.sauce}
@@ -92,12 +101,12 @@ class Form extends Component {
 
           <SectionTitle>Adres Dostawy</SectionTitle>
           <Label><Caption>Imię: </Caption><Input onChange={this.handleInputChange} name='name' value={name} /></Label>
-          <Label><Caption>Nazwisko:</Caption> <Input onChange={this.handleInputChange} name='lastname' value={lastName} /></Label>
+          <Label><Caption>Nazwisko:</Caption> <Input onChange={this.handleInputChange} name='lastName' value={lastName} /></Label>
           <Label><Caption>Ulica:</Caption> <Input onChange={this.handleInputChange} name='street' value={street} /></Label>
           <Label><Caption>Nr domu/mieszkania:</Caption> <Input onChange={this.handleInputChange} name='houseNumber' value={houseNumber} /></Label>
           <Label><Caption>Kod Pocztowy:</Caption> <Input onChange={this.handleInputChange} name='code' value={code} /></Label>
           <Label><Caption>Miasto:</Caption> <Input onChange={this.handleInputChange} name='city' value={city} /></Label>
-        </FormElement>
+        </FormElement >
       </>
     );
   }
