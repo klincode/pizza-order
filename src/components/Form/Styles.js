@@ -16,6 +16,9 @@ outline:0;
 border:1px solid silver;
 border-radius:4px;
 `
+export const InputCheck = styled.input`
+margin-right:10px;
+`
 export const Select = styled.select`
 padding:5px 10px;
 width:100%;

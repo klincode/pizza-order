@@ -1,76 +1,106 @@
 import React, { Component, useState } from 'react';
-import { CheckBoxes, FormElement, SectionTitle, Label, Caption, Input, Select, Header, Order } from './Styles'
+import { InputCheck, CheckBoxes, FormElement, SectionTitle, Label, Caption, Input, Select, Header, Order } from './Styles'
 import { pizzaType, pizzaSauce } from '../../data/pizza'
 
 
-const Form = () => {
-  const [selectedPizza, setPizza] = useState('');
-  const [SelectedSauce, setSauce] = useState('pomidorowy');
+class Form extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      order: {
+        pizzaName: '',
+        sauces: '',
+        name: '',
+        lastName: '',
+        street: '',
+        houseNumber: '',
+        city: '',
+        code: '',
+      }
+    }
+  }
 
-  const pizza = pizzaType.map((item, index) => {
+  handleInputChange = (e) => {
+    const { type, value, name } = e.target;
+    console.log(e.target.checked);
+    let sauces = {};
+    if (type === 'checkbox') {
+      sauces = {
+        ...sauces, [name]: value
+      }
+    }
+    console.log(sauces);
+    this.setState((prevState) => {
+      return (
+        {
+          order: {
+            ...prevState.order, [name]: value
+          }
+        }
+      )
+    })
+
+
+
+    console.log(type);
+    console.log(value);
+  }
+
+  pizza = pizzaType.map((item, index) => {
     return (
       <option value={`${item.name} - ${item.price}PLN`} key={index}>{item.name}</option>
     )
   })
-
-  const handleCheck = (e) => {
-    setSauce(e.target.value)
-    console.log('====================================');
-    console.log(e.target);
-    console.log('====================================');
-  }
-  const sauce = pizzaSauce.map((item, index) => {
+  sauce = pizzaSauce.map((item, index) => {
+    let checkBoxName = `sauce_${index}`;
     return (
       <Label row>
-        <input type="checkbox" name='sauce' value={item} onChange={handleCheck} />
+        <InputCheck type="checkbox" name={checkBoxName} value={item} onChange={this.handleInputChange} />
         {item}
       </Label>
     )
   })
 
-  const showSelectedPizza =
+  showSelectedPizza =
     <>
       <SectionTitle>Wybrana Pizza</SectionTitle>
       <Order >
-        <div>
-          {selectedPizza}
-        </div>
-        <div>
-          sos: {SelectedSauce}
-        </div>
+        {this.state}
       </Order>
     </>
+  render() {
+    const { pizzaName, name, lastName, code, houseNumber, street, city } = this.state.order;
 
+    return (
+      <>
+        <Header>Złóż zamówienie</Header>
+        <FormElement>
+          {this.selectedPizza ? this.showSelectedPizza : null}
+          <SectionTitle>Pizza</SectionTitle>
+          <Label><Caption>Pizza:</Caption>
+            <Select type="select" onChange={this.handleInputChange} name='pizzaName'>
+              <option value="">-- Wybierz Pizzę --</option>
+              {this.pizza}
+            </Select>
+          </Label>
+          <Label><Caption>Sosy:</Caption>
+            <CheckBoxes>
+              {this.sauce}
+            </CheckBoxes>
 
-  return (
-    <>
-      <Header>Złóż zamówienie</Header>
-      <FormElement>
-        {selectedPizza ? showSelectedPizza : null}
-        <SectionTitle>Pizza</SectionTitle>
-        <Label><Caption>Pizza:</Caption>
-          <Select type="select" onChange={(e) => setPizza(e.target.value)}>
-            <option value="">-- Wybierz Pizzę --</option>
-            {pizza}
-          </Select>
-        </Label>
-        <Label><Caption>Sosy:</Caption>
-          <CheckBoxes>
-            {sauce}
-          </CheckBoxes>
+          </Label>
 
-        </Label>
-
-        <SectionTitle>Adres Dostawy</SectionTitle>
-        <Label><Caption>Imię: </Caption><Input /></Label>
-        <Label><Caption>Nazwisko:</Caption> <Input /></Label>
-        <Label><Caption>Ulica:</Caption> <Input /></Label>
-        <Label><Caption>Nr domu/mieszkania:</Caption> <Input /></Label>
-        <Label><Caption>Kod Pocztowy:</Caption> <Input /></Label>
-        <Label><Caption>Miasto:</Caption> <Input /></Label>
-      </FormElement>
-    </>
-  );
+          <SectionTitle>Adres Dostawy</SectionTitle>
+          <Label><Caption>Imię: </Caption><Input onChange={this.handleInputChange} name='name' value={name} /></Label>
+          <Label><Caption>Nazwisko:</Caption> <Input onChange={this.handleInputChange} name='lastname' value={lastName} /></Label>
+          <Label><Caption>Ulica:</Caption> <Input onChange={this.handleInputChange} name='street' value={street} /></Label>
+          <Label><Caption>Nr domu/mieszkania:</Caption> <Input onChange={this.handleInputChange} name='houseNumber' value={houseNumber} /></Label>
+          <Label><Caption>Kod Pocztowy:</Caption> <Input onChange={this.handleInputChange} name='code' value={code} /></Label>
+          <Label><Caption>Miasto:</Caption> <Input onChange={this.handleInputChange} name='city' value={city} /></Label>
+        </FormElement>
+      </>
+    );
+  }
 }
 
 export default Form;
